@@ -1,0 +1,27 @@
+{
+  "name": "arps",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "browserify dataBase.js -o bundle.js",
+    "watch": "watchify dataBase.js -o bundle.js"
+  },
+  "author": "oluwajuwon",
+  "license": "ISC",
+  "dependencies": {
+    "@firebase/app": "^0.4.14",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "fast-crc32c": "^1.0.4",
+    "firebase-admin": "^8.3.0",
+    "request": "^2.88.0",
+    "sweetalert2": "^8.17.6",
+    "worker-threads": "^1.0.0",
+    "worker-threads-pool": "^2.0.0"
+  },
+  "devDependencies": {
+    "watchify": "^3.11.1"
+  },
+  "description": ""
+}

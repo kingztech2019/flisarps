@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title> Transparent Login Form Design </title>
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-database.js"></script>
+<script src="sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="sweetalert2/dist/sweetalert2.min.css">
+
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">   
+</head>
+    <body>
+        <div id="loading"></div>
+    <div class="login-box">
+    <img src="avatar.png" class="avatar">
+        <h1>Login Here</h1>
+        <div id="error"></div>
+            <form id="form">
+           <label for="email">Email <abbr title="Required" style="color: red;">*</abbr></label>
+            <input type="email" id="emailForm" required="true" name="email" placeholder="Enter Email" required="required">
+            <p id="inputEmail" style="font-size: 12px; color: red;"></p>
+            <label for="email">Password<abbr title="Required" style="color: red;">*</abbr></label>
+            <input type="password" id="passForm" required="true" name="password" placeholder="Enter Password" required="required">
+            <p id="inputPass" style="color: red; font-size: 12px;"></p>
+            <p id="warning" style="color: red;"></p>
+            <input type="submit" id="myAnchor"   name="submit" value="Login">
+                 
+            </form>
+        
+        
+        </div>
+ 
+  
+
+        <script type="text/javascript" src="js/login.js"></script>
+    
+    </body>
+</html>

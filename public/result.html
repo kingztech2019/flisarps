@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 3 | Dashboard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+   
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="sweetalert2/dist/sweetalert2.min.css">
+  
+
+<script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-functions.js"></script>
+
+<script src="sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script src= "dataBase.js"></script>
+
+ 
+
+
+ 
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+ 
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div id="loading">
+   
+</div>
+
+<style type="text/css">
+  #loading {
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   position: fixed;
+   display: block;
+   opacity: 0.7;
+   background-color: rgba(192, 192, 192, 0.5);
+   z-index: 99;
+   background-position: center;
+   background-image: url("css/loader2.gif");
+   background-repeat: no-repeat;
+
+}
+
+ 
+  
+
+</style>
+
+
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li>
+    </ul>
+     
+     
+
+    <!-- SEARCH FORM -->
+    
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Messages Dropdown Menu -->
+       
+       
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+          <i class="fas fa-th-large"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">ARP-System</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">FLIS</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-tabs nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="#dashboard" onclick="hideDash();" id="dash" class="nav-link active" data-toggle="tab">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+            
+            
+          </li>
+
+          
+          <li id="cResult" class="nav-item" style="display: none;">
+            <a href="#createResult" onclick="createMe();" class="nav-link" data-toggle="tab">
+              <i class="nav-icon fas fa-plus-circle"></i>
+              <p>
+                Create Result 
+                <span class="right"><i class="fas fa-angle-right"></i></span>
+              </p>
+            </a>
+          </li>
+
+        
+          
+
+           <li  id="rStudent" class="nav-item" style="display: none;">
+            <a href="#registerStudent" onclick="User();" class="nav-link" data-toggle="tab">
+              <i class="nav-icon fa fa-registered"></i>
+              <p  >
+                Register Student 
+                <span class="right"><i class="fas fa-angle-right"></i></span>
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item" id="addAdmin" style="display: none;">
+            <a href="#addNewAdmin" onclick="hideDash();" id="User" class="nav-link" data-toggle="tab">
+              <i class="nav-icon fas fa-plus-circle text-success"></i>
+              <p >
+               Add New Admin
+                <span class="right"><i class="fas fa-angle-right"></i></span>
+              </p>
+            </a>
+          </li>
+           
+            <li class="nav-item" id="dStudent" style="display: none;">
+            <a href="#deleteName" onclick="deleteIt();" class="nav-link" data-toggle="tab">
+               <i class="nav-icon fas fa-trash-alt"></i>
+              <p>
+               Delete Student Name 
+                <span class="right"><i class="fas fa-angle-right"></i></span>
+              </p>
+            </a>
+          </li>
+           <li class="nav-item">
+            <a href="#" onclick="hideDash();" id="signOut" class="nav-link">
+              <i class="nav-icon fas fa-power-off"></i>
+              <p>
+                Logout 
+                <span class="right"><i class="fas fa-angle-right"></i></span>
+              </p>
+            </a>
+          </li>
+          
+          
+           
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+     
+ 
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="tab-content">
+        <div class="tab-pane" id="createResult">
+          
+
+          <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <style type="text/css">
+                #schoolname{
+                  font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+                  font-weight: bolder;
+                }
+              </style>
+              <img  class="float-left" src="focused.png" width="70px" height="60px">
+              <h1 id="schoolname" align="center">FOCUSED LIFE INTERNATIONAL SCHOOL</h1>
+              <p align="center"><b>website:</b> www.focusedlifeintlschool.blogspot.com.ng <b>Email:</b> focusedlifeinternationalsch@gmail.com</p>
+              <p align="center"> Tel:07062419471, 08034465225, 07065257216</p>
+
+              <div  class="form-inline ">
+      
+         
+        <h5 class="brand-text font-weight-bold p-2 ">Name:</h5><input type="text" class="form-control w-50 " style="text-transform: capitalize;"   value="" id="inputName" placeholder="Student Name"> 
+       
+         
+    </div>
+              <div class="row">
+             <form class="form-inline col-md-6 ">
+    <div  class="form-group">
+      
+         
+        <h5 class="brand-text font-weight-bold p-2">Session:</h5><input type="text" class="form-control " style="text-transform: capitalize;" id="sessionStudent"    placeholder="Session"> 
+       
+         
+    </div>
+     
+    </form>
+
+<form class="form-inline col-md-6 ">
+    <div class="form-group"  >
+         
+         <h5 class="brand-text  font-weight-bold ml-5 p-2 ">Term:</h5><input type="text" class="form-control"  id="inputTerm"  placeholder="term">
+    </div>
+  </form>
+     
+    
+
+</div>
+            </div>
+
+<!-- /.second form -->
+             <div class="card-header">
+              
+  <div class="row">
+             <form class="form-inline col-md-6 ">
+    <div  class="form-group">
+      
+         
+        <h5 class="brand-text font-weight-bold p-2">Attendance:</h5><input type="text" class="form-control "  value="" id="attend"  placeholder="Student Name">
+         
+    </div>
+    </form>
+<form class="form-inline col-md-6 ">
+    <div class="form-group"  >
+         
+         <h5 class="brand-text  font-weight-bold ml-5 p-2 ">Class:</h5><input type="text" class="form-control" value="jss1" id="inputClass" placeholder="Student class">
+    </div>
+  </form>
+     
+    
+
+</div>
+            </div>
+
+
+             
+             
+              <div class="card-body table-responsive" id="result">
+
+
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                          <th>SUBJECTS</th>
+                        <th >Test 1 <br>(10)</th> 
+                        <th>Test 2 <br>(10)</th>
+                        <th>Ass<br>(10)</th>
+                        <th>Exam <br>(70)</th> 
+                        <th>Total <br>(100)</th>
+                        <th>Cumm B/F<br>(100)</th>
+                        <th>Cumm Score<br>(100) </th> 
+                        <th>Class Ave</th>
+                        <th>Grades</th>
+                        <th>Position</th> 
+                        <th>Remarks</th>
+                   
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    
+    <td> English Language </td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enter(event);" id="e1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enter(event);" id="e2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enter(event);" id="e3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enter(event);" id="e4" ></textarea></td>
+  <td><textarea readonly   id="etotal" ></textarea></td>
+  <td><textarea onclick="enter(event);" onkeyup="numbersOnly(this)" id="ecumm" ></textarea></td>
+    <td><textarea  readonly="true"   onkeyup="numbersOnly(this)" id="ecumscore" ></textarea></td>
+  <td><textarea id="classeng" ></textarea></td>
+  <td><textarea readonly   id="egrades" ></textarea></td>
+    <td><textarea id="positioneng"></textarea></td>
+  <td><textarea id="eremarks"></textarea> </td>
+                </tr>
+                <tr>
+                 <td style="text-align: left;">Yoruba Language</td>
+   <td><textarea onkeyup="numbersOnly(this)" onclick="enterYoruba(event);" id="y1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterYoruba(event);" id="y2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterYoruba(event);" id="y3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterYoruba(event);" id="y4" ></textarea></td>
+  <td><textarea readonly   id="ytotal" ></textarea></td>
+  <td><textarea onclick="enterYoruba(event);" onkeyup="numbersOnly(this)" id="ycumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="ycumscore" ></textarea></td>
+  <td><textarea id="classyor"  ></textarea></td>
+  <td><textarea readonly   id="ygrades" ></textarea></td>
+    <td><textarea id="positionyor"></textarea></td>
+  <td><textarea id="yremarks" ></textarea> </td>
+  </tr>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">French Language</td>
+   <td><textarea onkeyup="numbersOnly(this)" onclick="enterFrench(event);" id="f1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterFrench(event);" id="f2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterFrench(event);" id="f3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterFrench(event);" id="f4" ></textarea></td>
+  <td><textarea readonly   id="ftotal" ></textarea></td>
+  <td><textarea onclick="enterFrench(event);" onkeyup="numbersOnly(this)" id="fcumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="fcumscore" ></textarea></td>
+<td><textarea id="classf"></textarea></td>
+  <td><textarea readonly   id="fgrades" ></textarea></td>
+    <td><textarea id="positionf"></textarea></td>
+  <td><textarea id="fremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                 <td style="text-align: left;">Mathematics</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterMath(event);" id="m1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterMath(event);" id="m2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterMath(event);" id="m3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterMath(event);" id="m4" ></textarea></td>
+  <td><textarea readonly   id="mtotal" ></textarea></td>
+  <td><textarea onclick="enterMath(event);" onkeyup="numbersOnly(this)" id="mcumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="mcumscore" ></textarea></td>
+  <td><textarea id="classm"></textarea></td>
+  <td><textarea readonly   id="mgrades" ></textarea></td>
+    <td><textarea id="positionm"></textarea></td>
+  <td><textarea id="mremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Business Studies</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterBusiness(event);" id="b1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterBusiness(event);" id="b2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterBusiness(event);" id="b3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterBusiness(event);" id="b4" ></textarea></td>
+  <td><textarea readonly id="btotal" ></textarea></td>
+  <td><textarea   onkeyup="numbersOnly(this)" id="bcumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="bcumscore" ></textarea></td>
+  <td><textarea id="classb"></textarea></td>
+  <td><textarea readonly id="bgrades" ></textarea></td>
+    <td><textarea id="positionb"></textarea></td>
+  <td><textarea id="bremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                   <td style="text-align: left;">Social Studies</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterSocial(event);" id="s1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterSocial(event);" id="s2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterSocial(event);" id="s3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterSocial(event);" id="s4" ></textarea></td>
+  <td><textarea readonly  id="stotal" ></textarea></td>
+  <td><textarea   onkeyup="numbersOnly(this)" id="scumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="scumscore" ></textarea></td>
+  <td><textarea  id="classs"></textarea></td>
+  <td><textarea readonly id="sgrades" ></textarea></td>
+     <td><textarea id="positions"></textarea></td>
+  <td><textarea id="sremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Christian Religous Studies</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterChris(event);" id="c1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterChris(event);" id="c2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterChris(event);" id="c3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterChris(event);" id="c4" ></textarea></td>
+  <td><textarea readonly  id="ctotal" ></textarea></td>
+  <td><textarea   onkeyup="numbersOnly(this)" id="ccumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="ccumscore" ></textarea></td>
+  <td><textarea id="classc"></textarea></td>
+  <td><textarea readonly   id="cgrades" ></textarea></td>
+    <td><textarea id="positionc"></textarea></td>
+  <td><textarea id="cremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Agricultural Science</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterAgric(event);" id="a1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterAgric(event);" id="a2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterAgric(event);" id="a3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterAgric(event);" id="a4" ></textarea></td>
+  <td><textarea readonly   id="atotal" ></textarea></td>
+  <td><textarea   onkeyup="numbersOnly(this)" id="acumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="acumscore" ></textarea></td>
+  <td><textarea id="classa"></textarea></td>
+  <td><textarea readonly  id="agrades" ></textarea></td>
+    <td><textarea id="positiona"></textarea></td>
+  <td><textarea readonly="readonly" id="aremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Basic Science</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterBasic(event);" id="ba1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterBasic(event);" id="ba2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterBasic(event);" id="ba3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterBasic(event);" id="ba4" ></textarea></td>
+  <td><textarea readonly  id="batotal" ></textarea></td>
+  <td><textarea   onkeyup="numbersOnly(this)" id="bacumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="bacumscore" ></textarea></td>
+  <td><textarea id="classb" ></textarea></td>
+  <td><textarea readonly   id="bagrades" ></textarea></td>
+    <td><textarea id="positionb"></textarea></td>
+  <td><textarea readonly="readonly" id="bremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Basic Technology</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterTech(event);" id="t1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterTech(event);" id="t2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterTech(event);" id="t3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterTech(event);" id="t4" ></textarea></td>
+  <td><textarea readonly   id="ttotal" ></textarea></td>
+  <td><textarea   onkeyup="numbersOnly(this)" id="tcumm" ></textarea></td>
+    <td><textarea  readonly  id="tcumscore" ></textarea></td>
+  <td><textarea  id="classt"></textarea></td>
+  <td><textarea readonly   id="tgrades" ></textarea></td>
+     <td><textarea id="positiont"></textarea></td>
+  <td><textarea readonly="readonly" id="tremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Computer Science</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterCom(event);" id="co1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterCom(event);" id="co2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterCom(event);" id="co3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterCom(event);" id="co4" ></textarea></td>
+  <td><textarea readonly   id="cototal" ></textarea></td>
+  <td><textarea  onkeyup="numbersOnly(this)" id="cocumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="cocumscore" ></textarea></td>
+  <td><textarea id="classco"></textarea></td>
+  <td><textarea readonly   id="cogrades" ></textarea></td>
+     <td><textarea id="positionco"></textarea></td>
+  <td><textarea readonly="readonly" id="coremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                 <td style="text-align: left;">Creative and Cultural Art</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterCreat(event);" id="cr1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterCreat(event);" id="cr2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterCreat(event);" id="cr3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterCreat(event);" id="cr4" ></textarea></td>
+  <td><textarea readonly   id="crtotal" ></textarea></td>
+  <td><textarea  onkeyup="numbersOnly(this)" id="crcumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="crcumscore" ></textarea></td>
+  <td><textarea id="classcr"></textarea></td>
+  <td><textarea readonly   id="crgrades" ></textarea></td>
+   <td><textarea id="positioncr"></textarea></td>
+  <td><textarea readonly="readonly" id="crremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                   
+    <td style="text-align: left;">Civic Education</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterCivic(event);" id="ci1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterCivic(event);" id="ci2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterCivic(event);" id="ci3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterCivic(event);" id="ci4" ></textarea></td>
+  <td><textarea readonly   onclick="enterCivic(event);" id="citotal" ></textarea></td>
+  <td><textarea  onkeyup="numbersOnly(this)" onclick="enterCivic(event);" id="cicumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="cicumscore" ></textarea></td>
+  <td><textarea id="classci"></textarea></td>
+  <td><textarea readonly   id="cigrades" ></textarea></td>
+    <td><textarea id="positionci"></textarea></td>
+  <td><textarea readonly="readonly" id="ciremarks" ></textarea> </td>
+                </tr>
+                
+                <tr>
+                 <td style="text-align: left; font-weight: bold;">Home Economics</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterHome(event);" id="h1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterHome(event);" id="h2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterHome(event);" id="h3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterHome(event);" id="h4" ></textarea></td>
+  <td><textarea readonly   id="htotal" ></textarea></td>
+  <td><textarea  onkeyup="numbersOnly(this)" id="hcumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="hcumscore" ></textarea></td>
+  <td><textarea id="classh"></textarea></td>
+  <td><textarea readonly   id="hgrades" ></textarea></td>
+    <td><textarea id="positionh"></textarea></td>
+  <td><textarea readonly="readonly" id="hremarks" ></textarea> </td>
+                </tr>
+                <tr>
+                 <td style="text-align: left;font-weight: bold;">Physical and Health Education</td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterPhysical(event);" id="p1" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)"onclick="enterPhysical(event);" id="p2" ></textarea></td>
+  <td><textarea onkeyup="numbersOnly(this)" onclick="enterPhysical(event);" id="p3" ></textarea></td>
+    <td><textarea onkeyup="numbersOnly(this)" onclick="enterPhysical(event);" id="p4" ></textarea></td>
+  <td><textarea readonly   id="ptotal" ></textarea></td>
+  <td><textarea  onkeyup="numbersOnly(this)" id="pcumm" ></textarea></td>
+    <td><textarea  readonly onkeyup="numbersOnly(this)" id="pcumscore" ></textarea></td>
+  <td><textarea id="classp"></textarea></td>
+  <td><textarea readonly   id="pgrades" ></textarea></td>
+     <td><textarea id="positionp"></textarea></td>
+  <td><textarea readonly="readonly" id="premarks" ></textarea> </td>
+                </tr>
+                
+              </table>
+              <br>
+              
+ 
+<div class="row">
+    <div class="col-xs-6">
+        <table id="example2" class="table  table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>AFFECTIVE DISPOSITION</th>
+                    <th>5</th>
+                    <th>4</th>
+                    <th>3</th>
+                    <th>2</th>
+                    <th>1</th>  
+
+
+
+                </tr>
+            </thead>
+          </tbody>
+          <tr>
+                    
+    <td> Attentiveness  </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Attitude to school </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Cooperation with others</td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Emotional Stability </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td>  Health  </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                                          
+      <td> Helping Others </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Honesty </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Leadership</td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                       <tr>
+                    
+    <td> Neatness  </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Perseverance  </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                  <tr>
+                    
+    <td> Politeness </td>
+    <td><textarea></textarea></td>       
+   <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Punctuality  </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                  <tr>
+                    
+    <td> Fluency </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div class="col-xs-6">
+        <table class="table  table table-bordered table-hover ml-5">
+            <thead>
+                <tr>
+                    <th>PSYCHOMOTOR SKILLS</th>
+                    <th>5</th>
+                    <th>4</th>
+                    <th>3</th>
+                    <th>2</th>
+                    <th>1</th>
+                </tr>
+            </thead>
+            </tbody>
+          <tr>
+                    
+    <td> Drawing & Painting </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Handing Tools </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                                     
+
+
+
+    <td> Handwriting  </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Music  </td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+                <tr>
+                    
+    <td> Sports</td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+    <td><textarea></textarea></td>
+  <td><textarea></textarea></td>
+  
+                </tr>
+            
+               
+
+        </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+             <form class="form-inline col-md-6 ">
+    <div  class="form-group">
+      
+         
+        <h5 class="brand-text  font-weight-bold p-2" style="font-size: 14px;" >Class Teacher's Comment:</h5><input type="text" style="border-top: 0px; border-bottom: solid 1px black; width: 350px;" class="form-text "  value=""   placeholder="Student Name">
+         
+    </div>
+    </form>
+    <form class="form-inline col-md-6 ">
+    <div align="center" style="margin-left:10px; "  class="form-group ">
+      
+         
+        <input  type="text" style="border-top: 0px; border-bottom: solid 1px black; margin-left:150px; width: 150px;" class="form-text "  value=""   placeholder="Signature">
+         
+    </div>
+    </form>
+   <form class="form-inline col-md-6 ">
+    <div  class="form-group">
+      
+         
+        <h5 class="brand-text  font-weight-bold p-2" style="font-size: 14px;" >Principal's Comment:</h5><input type="text" style="border-top: 0px; border-bottom: solid 1px black; width: 350px;" class="form-text "  value=""   placeholder="Principal's Comment:">
+         
+    </div>
+    </form>
+    <div class="col-md-6">
+      <p align="center" style="font-weight: bold;">Principal</p>
+      
+    </div>
+     
+    
+
+</div>
+
+
+
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+           <div class="row"> 
+<div class="col-md-6"> 
+<button  type="submit" id="insertButton" style="text-align: center;" class="btn btn-primary  w-25 ml-xl-auto">Save</button>
+</div>
+<div class="col-md-6">
+ <button type="submit" id="editButton" class="btn btn-primary  w-25  ml-4">Edit</button>
+</div>
+ </div>
+
+
+        
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+
+        </div>
+
+
+         <div id="topic">
+          <h1  class="mb-4 text-dark">Dashboard</h1>
+          <div class="jumbotron bg-info">
+            <h1 class="welcome d-flex justify-content-center">Welcome!</h1>
+            <h3 class="d-flex justify-content-center">Focused Life International Automated Result Processing System</h3>    
+          </div>
+       </div>
+
+        <div class="tab-pane" id="dashboard">
+          <h1 class="mb-4 text-dark">Dashboard</h1>
+          <div class="jumbotron bg-info">
+            <h1 class="welcome d-flex justify-content-center">Welcome!</h1>
+            <h3 class="d-flex justify-content-center">Focused Life International Automated Result Processing System</h3>    
+          </div>
+        </div>
+
+        <div class="tab-pane" id="registerStudent">
+          <h1 class="mb-4 text-dark">Names of registered Students</h1>
+          <div class="">
+              <p id="listUser" onchange="reLoad();" style="text-transform: capitalize; font-weight: bolder; padding: 7px; margin: 4px;"> 
+                 <span id="loading"></span>
+
+              </p>
+          </div>
+        </div>
+
+
+        <div class="tab-pane" id="addNewAdmin" disable >
+          <h1 class="mb-4 text-dark">Register an Admin</h1>
+          <div class="">
+            
+                <input type="email" id="admin-email"><button id="adminButton">Make admin</button>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="deleteName">
+          <h4 class="mb-4 text-dark">please note once you click the delete button the student name will be permanently delete from the database </h4>
+          <div class="form-inline">
+              <input type="text"   style="text-transform: capitalize;" class="form-control w-50  " id="deleteNameBox" placeholder="Student Name">
+               <button type="submit" id="deleteButton"  class="btn btn-danger  ml-2">Delete</button>
+               <button type="submit" id="deleteAll"  class="btn btn-danger  ml-2">Delete All</button>
+
+               <br>
+               
+          </div>
+          <p style="color: red;" id="required"></p>
+        </div>
+        
+ 
+        
+
+      </div>
+
+       <style>
+        h1.welcome{
+          line-height: 1.5em;
+          transform: scaleX(0.7);
+          font-size:6em;
+          font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma;
+        }
+        h3.d-flex{
+          letter-spacing: 0.2em;
+        }
+
+       </style>
+
+       
+
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2019 <a href="http://kingztech.com.ng">kingzTech</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1.0.0 
+    </div>
+  </footer>
+
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <p style="color: white;"> i love u</p>
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+
+<script src="js/mainresult.js"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+ 
+ 
+<!-- jQuery Knob Chart -->
+<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- FastClick -->
+<script src="plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+ 
+</body>
+</html>
