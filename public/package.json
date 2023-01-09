@@ -14,7 +14,7 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "fast-crc32c": "^1.0.4",
-    "firebase-admin": "^8.3.0",
+    "firebase-admin": "^11.4.1",
     "request": "^2.88.0",
     "sweetalert2": "^8.17.6",
     "worker-threads": "^1.0.0",
